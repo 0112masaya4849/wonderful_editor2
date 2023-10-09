@@ -17,9 +17,9 @@
 #
 #  fk_rails_...  (user_id => users.id)
 #
-class Article < ApplicationRecord
-  belongs_to :user
-  has_many :comments, dependent: :destroy
-  has_many :article_likes, dependent: :destroy
-  validates :title, presence: true
+FactoryBot.define do
+  factory :article do
+    title{Faker::String.random(length: 3..12)}
+    user { association :user }
+  end
 end
