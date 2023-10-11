@@ -19,7 +19,8 @@
 #
 FactoryBot.define do
   factory :article do
-    title{Faker::String.random(length: 3..12)}
-    user { association :user }
+    title { Faker::Lorem.word }
+    body { Faker::Lorem.sentence }
+    user
   end
 end
