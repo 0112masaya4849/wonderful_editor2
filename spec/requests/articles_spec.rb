@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "articles", type: :request do
   describe "GET /api_v1_articles" do
-    binding.pry
+    # binding.pry
     subject { get(api_v1_articles_path) }
     before { create_list(:article, 3) }
     it "記事の一覧が取得できる" do
@@ -38,4 +38,25 @@ RSpec.describe "articles", type: :request do
       end
     end
   end
+
+
+  describe "POST /articles" do
+    subject { post(api_v1_articles_path, params: params) }
+
+    let(:params) { { article: attributes_for(:article) } }
+    let(:current_user) { create(:user) }
+
+    # stub
+    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) }
+
+    it "記事のレコードが作成できる" do
+      expect { subject }.to change { Article.where(user_id: current_user.id).count }.by(1)
+      res = JSON.parse(response.body)
+      expect(res["title"]).to eq params[:article][:title]
+      expect(res["body"]).to eq params[:article][:body]
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+
 end
