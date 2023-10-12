@@ -11,6 +11,19 @@ module Api::V1
       render json: article, serializer: Api::V1::ArticleSerializer
     end
 
+    def create
+      # binding.pry
+      article = current_user.articles.create!(article_params)
+      render json: article, serializer: Api::V1::ArticleSerializer
+
+    end
+
+
+    private
+
+    def article_params
+      params.require(:article).permit(:title, :body)
+    end
 
   end
 end
