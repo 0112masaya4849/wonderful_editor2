@@ -18,6 +18,22 @@ module Api::V1
 
     end
 
+    def update
+        article = current_user.articles.find(params[:id])
+        article.update!(article_params)
+        render json: article, serializer: Api::V1::ArticleSerializer
+    end
+
+    def destroy
+        # 対象のレコードを探す
+        # binding.pry
+        article = current_user.articles.find(params[:id])
+        # 探してきたレコードを削除する
+        article.destroy!
+        # json として値を返す
+        render json: article, serializer: Api::V1::ArticleSerializer
+    end
+
 
     private
 
