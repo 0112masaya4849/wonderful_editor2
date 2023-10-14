@@ -84,4 +84,14 @@ RSpec.describe "articles", type: :request do
     end
   end
 
+  describe "DELETE /api/v1/articles/:id" do
+    # binding.pry
+    subject { delete(api_v1_article_path(article_id)) }
+    let(:article) { create(:article) }
+    let!(:article_id) { article.id }
+
+    it "任意のユーザーのレコードを削除できる" do
+      expect { subject }.to change { Article.count }.by(-1)
+    end
+  end
 end
