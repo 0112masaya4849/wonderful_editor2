@@ -12,10 +12,14 @@ Rails.application.routes.draw do
       namespace :articles do
         resources :drafts
       end
+      namespace :current do
+        resources :articles
+      end
       mount_devise_token_auth_for "User", at: "auth", controllers: {
         registrations: "api/v1/auth/registrations",
       }
       resources :articles
+
 
 
 
